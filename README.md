@@ -1,1 +1,1 @@
-# Moj prvi repozitorij
+# Zaznavanje pljučnega raka na podlagi CT slik
