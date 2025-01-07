@@ -24,18 +24,26 @@ Notes:
 Note: The script needs access to the raw_splitted images.
 2. Download and run the luna evaluation script.
 
-
-Docker
+## Docker
 The easiest way to get started with nnDetection is the provided is to build a Docker Container with the provided Dockerfile.
 
-Please install docker and nvidia-docker2 before continuing.
+Please install docker and [nvidia-docker2](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) before continuing.
 
-All projects which are based on nnDetection assume that the base image was built with the following tagging scheme nnDetection:[version]. To build a container (nnDetection Version 0.1) run the following command from the base directory:
+All projects which are based on nnDetection assume that the base image was built with the following tagging scheme `nnDetection:[version]`.
+To build a container (nnDetection Version 0.1) run the following command from the base directory:
 
+```bash
 docker build -t nndetection:0.1 --build-arg env_det_num_threads=6 --build-arg env_det_verbose=1 .
-(--build-arg env_det_num_threads=6 and --build-arg env_det_verbose=1 are optional and are used to overwrite the provided default parameters)
+```
 
-The docker container expects data and models in its own /opt/data and /opt/models directories respectively. The directories need to be mounted via docker -v. For simplicity and speed, the ENV variables det_data and det_models can be set in the host system to point to the desired directories. To run:
+(`--build-arg env_det_num_threads=6` and `--build-arg env_det_verbose=1` are optional and are used to overwrite the provided default parameters)
 
+The docker container expects data and models in its own `/opt/data` and `/opt/models` directories respectively.
+The directories need to be mounted via docker `-v`. For simplicity and speed, the ENV variables `det_data` and `det_models` can be set in the host system to point to the desired directories. To run:
+
+```bash
 docker run --gpus all -v ${det_data}:/opt/data -v ${det_models}:/opt/models -it --shm-size=24gb nndetection:0.1 /bin/bash
-Warning: When running a training inside the container it is necessary to increase the shared memory (via --shm-size).
+```
+
+Warning:
+When running a training inside the container it is necessary to [increase the shared memory](https://stackoverflow.com/questions/30210362/how-to-increase-the-size-of-the-dev-shm-in-docker-container) (via --shm-size).
